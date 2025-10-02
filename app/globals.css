@@ -130,25 +130,6 @@
         backdrop-filter: blur(4px);
         -webkit-backdrop-filter: blur(4px);
     }
-
-    .custom-scrollbar::-webkit-scrollbar {
-        width: 3px;
-        height: 3px;
-        border-radius: 2px;
-    }
-
-    .custom-scrollbar::-webkit-scrollbar-track {
-        background: #dddddd;
-    }
-
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #5c5c7b;
-        border-radius: 50px;
-    }
-
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        background: #7878a3;
-    }
 }
 
 @utility no-scrollbar {
@@ -160,6 +141,27 @@
     /* Hide scrollbar for IE, Edge and Firefox */
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
+}
+
+@utility custom-scrollbar {
+    &::-webkit-scrollbar {
+        width: 3px;
+        height: 3px;
+        border-radius: 2px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #dddddd;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #5c5c7b;
+        border-radius: 50px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: #7878a3;
+    }
 }
 
 @utility input-class {
