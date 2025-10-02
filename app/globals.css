@@ -368,7 +368,7 @@
 
 @utility mobilenav-sheet {
   /* Mobile nav */
-  @apply flex h-[calc(100vh-72px)] flex-col justify-between overflow-y-auto;
+  @apply flex h-[calc(100vh-72px)] flex-col justify-between overflow-y-auto px-4;
 }
 
 @utility mobilenav-sheet_close {

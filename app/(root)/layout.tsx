@@ -1,14 +1,35 @@
 import React from "react";
+import Image from "next/image";
+import {Sidebar} from "@/components/Sidebar";
+import {MobileNav} from "@/components/MobileNav";
 
 type RootLayoutProps = Readonly<{
   children: React.ReactNode;
 }>;
 
 function RootLayout(props: RootLayoutProps) {
+  const loggedIn = {
+    firstName: "Vitalii",
+    lastName: "Demo",
+  };
+
   return (
-    <main>
-      SIDEBAR
-      {props.children}
+    <main className="font-inter flex h-screen w-full">
+      <Sidebar user={loggedIn} />
+      <div className="flex size-full flex-col">
+        <div className="root-layout">
+          <Image
+            src="/icons/logo.svg"
+            alt="Horizon Logo"
+            width={30}
+            height={30}
+          />
+          <div>
+            <MobileNav user={loggedIn} />
+          </div>
+        </div>
+        {props.children}
+      </div>
     </main>
   );
 }
