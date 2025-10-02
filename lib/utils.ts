@@ -1,7 +1,7 @@
 /* eslint-disable no-prototype-builtins */
-import { type ClassValue, clsx } from "clsx";
+import {type ClassValue, clsx} from "clsx";
 import qs from "query-string";
-import { twMerge } from "tailwind-merge";
+import {twMerge} from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -39,22 +39,22 @@ export const formatDateTime = (dateString: Date) => {
 
   const formattedDateTime: string = new Date(dateString).toLocaleString(
     "en-US",
-    dateTimeOptions
+    dateTimeOptions,
   );
 
   const formattedDateDay: string = new Date(dateString).toLocaleString(
     "en-US",
-    dateDayOptions
+    dateDayOptions,
   );
 
   const formattedDate: string = new Date(dateString).toLocaleString(
     "en-US",
-    dateOptions
+    dateOptions,
   );
 
   const formattedTime: string = new Date(dateString).toLocaleString(
     "en-US",
-    timeOptions
+    timeOptions,
   );
 
   return {
@@ -87,7 +87,7 @@ interface UrlQueryParams {
   value: string;
 }
 
-export function formUrlQuery({ params, key, value }: UrlQueryParams) {
+export function formUrlQuery({params, key, value}: UrlQueryParams) {
   const currentUrl = qs.parse(params);
 
   currentUrl[key] = value;
@@ -97,7 +97,7 @@ export function formUrlQuery({ params, key, value }: UrlQueryParams) {
       url: window.location.pathname,
       query: currentUrl,
     },
-    { skipNull: true }
+    {skipNull: true},
   );
 }
 
@@ -130,9 +130,9 @@ export function getAccountTypeColors(type: AccountTypes) {
 }
 
 export function countTransactionCategories(
-  transactions: Transaction[]
+  transactions: Transaction[],
 ): CategoryCount[] {
-  const categoryCounts: { [category: string]: number } = {};
+  const categoryCounts: {[category: string]: number} = {};
   let totalCount = 0;
 
   // Iterate over each transaction
@@ -159,7 +159,7 @@ export function countTransactionCategories(
       name: category,
       count: categoryCounts[category],
       totalCount,
-    })
+    }),
   );
 
   // Sort the aggregatedCategories array by count in descending order
