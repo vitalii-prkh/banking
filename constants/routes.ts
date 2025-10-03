@@ -1,5 +1,7 @@
 export const ROUTES = {
   HOME: "/",
+  SIGN_IN: "/sign-in",
+  SIGN_UP: "/sign-up",
   MY_BANKS: "/my-banks",
   TRANSACTION_HISTORY: "/transaction-history",
   PAYMENT_TRANSFER: "/payment-transfer",
