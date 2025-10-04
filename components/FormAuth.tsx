@@ -18,6 +18,7 @@ import {signIn, signUp} from "@/lib/actions/user.actions";
 import {Form} from "@/components/ui/form";
 import {CustomInput} from "@/components/CustomInput";
 import {Button} from "@/components/ui/button";
+import {PlaidLink} from "@/components/PlaidLink";
 
 type FormAuthProps<T extends FormType> = {
   type: T;
@@ -113,7 +114,9 @@ export function FormAuth<T extends FormType>(props: FormAuthProps<T>) {
         </div>
       </header>
       {user && (
-        <div className="flex flex-col gap-4">{/* Plaid link component */}</div>
+        <div className="flex flex-col gap-4">
+          <PlaidLink user={user} />
+        </div>
       )}
       {!user && (
         <React.Fragment>
