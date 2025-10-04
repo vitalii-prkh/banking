@@ -164,7 +164,7 @@ export async function createLinkToken(user: User) {
         client_user_id: user.$id,
       },
       client_name: `${user.firstName} ${user.lastName}`,
-      products: ["auth"] as Products[],
+      products: ["auth", "transactions"] as Products[],
       language: "en",
       country_codes: ["US"] as CountryCode[],
     };
@@ -266,6 +266,38 @@ export async function createBankAccount({
     });
 
     return parseStringify(bankAccount);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getBanks({userId}: getBanksProps) {
+  try {
+    const {tables} = await createAdminClient();
+
+    const banks = await tables.listRows({
+      databaseId: APPWRITE_DATABASE,
+      tableId: APPWRITE_COLLECTION_BANKS,
+      queries: [Query.equal("userId", userId)],
+    });
+
+    return parseStringify(banks.rows);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getBank({documentId}: getBankProps) {
+  try {
+    const {tables} = await createAdminClient();
+
+    const bank = await tables.listRows({
+      databaseId: APPWRITE_DATABASE,
+      tableId: APPWRITE_COLLECTION_BANKS,
+      queries: [Query.equal("$id", documentId)],
+    });
+
+    return parseStringify(bank.rows[0]);
   } catch (error) {
     console.log(error);
   }

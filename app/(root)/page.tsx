@@ -1,11 +1,26 @@
 import {getLoggedInUser} from "@/lib/actions/user.actions";
+import {getAccounts, getAccount} from "@/lib/actions/bank.actions";
 import {getFullName} from "@/lib/utils";
 import {Header} from "@/components/Header";
 import {TotalBalanceBox} from "@/components/TotalBalanceBox";
 import {RightSidebar} from "@/components/RightSidebar";
+import {RecentTransactions} from "@/components/RecentTransactions";
 
-async function PageHome() {
+type PageHomeProps = Readonly<{
+  searchParams: Promise<{id?: string; page: string}>;
+}>;
+
+async function PageHome(props: PageHomeProps) {
+  const searchParams = await props.searchParams;
   const loggedIn = await getLoggedInUser();
+  const accounts = await getAccounts({userId: loggedIn?.$id});
+
+  if (!accounts) {
+    return;
+  }
+
+  const appwriteItemId = searchParams.id || accounts.data[0]?.appwriteItemId;
+  const account = await getAccount({appwriteItemId});
 
   return (
     <section className="home">
@@ -18,21 +33,23 @@ async function PageHome() {
             subtext="Access and manage your account and transactions efficienty."
           />
           <TotalBalanceBox
-            accounts={[]}
-            totalBanks={1}
-            totalCurrentBalance={12123.44}
+            accounts={accounts.data || []}
+            totalBanks={accounts.totalBanks || 0}
+            totalCurrentBalance={accounts.totalCurrentBalance || 0}
           />
         </header>
-        RECENT TRANSACTIONS
+        <RecentTransactions
+          accounts={accounts.data || []}
+          transactions={account.transactions || []}
+          appwriteItemId={appwriteItemId}
+          page={Number(searchParams.page) || 1}
+        />
       </div>
 
       <RightSidebar
         user={loggedIn}
-        transactions={[]}
-        accounts={[
-          {id: "1", name: "Credit", currentBalance: 20000.01, mask: "1111"},
-          {id: "2", name: "Debit", currentBalance: 124000.45, mask: "2222"},
-        ]}
+        transactions={account.transactions || []}
+        accounts={(accounts.data || []).slice(0, 2)}
       />
     </section>
   );
