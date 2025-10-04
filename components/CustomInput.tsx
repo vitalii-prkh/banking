@@ -18,6 +18,7 @@ export function CustomInput<
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >(props: CustomInputProps<TFieldValues, TName>) {
   const {control, name, label, placeholder} = props;
+  const id = React.useId();
 
   return (
     <FormField
@@ -25,10 +26,16 @@ export function CustomInput<
       name={name}
       render={({field}) => (
         <div className="form-item">
-          <FormLabel className="form-label">{label}</FormLabel>
+          <FormLabel
+            htmlFor={id}
+            className="form-label"
+          >
+            {label}
+          </FormLabel>
           <div className="flex w-full flex-col">
             <FormControl>
               <Input
+                id={id}
                 placeholder={placeholder}
                 className="input-class"
                 type={name === "password" ? "password" : "text"}

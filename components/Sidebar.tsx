@@ -5,6 +5,7 @@ import Image from "next/image";
 import {usePathname} from "next/navigation";
 import {ROUTES, SIDEBAR_LINKS} from "@/constants/routes";
 import {cn} from "@/lib/utils";
+import {Footer} from "@/components/Footer";
 
 type SidebarProps = {
   user: User;
@@ -55,7 +56,10 @@ export function Sidebar(props: SidebarProps) {
         })}
         USER
       </nav>
-      FOOTER
+      <Footer
+        type="desktop"
+        user={props.user}
+      />
     </section>
   );
 }

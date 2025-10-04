@@ -195,23 +195,64 @@ export const getTransactionStatus = (date: Date) => {
   return date > twoDaysAgo ? "Processing" : "Success";
 };
 
-export type FormAuthValues = z.infer<ReturnType<typeof schemaAuthForm>>;
+export type FormType = FormTypeSignUp | FormTypeSignIn;
 
-export function schemaAuthForm(type: "sign-up" | "sign-in") {
-  return z.object({
-    // sign up
-    firstName: type === "sign-in" ? z.string().optional() : z.string().min(3),
-    lastName: type === "sign-in" ? z.string().optional() : z.string().min(3),
-    address1: type === "sign-in" ? z.string().optional() : z.string().max(50),
-    city: type === "sign-in" ? z.string().optional() : z.string().max(50),
-    state:
-      type === "sign-in" ? z.string().optional() : z.string().min(2).max(2),
-    postalCode:
-      type === "sign-in" ? z.string().optional() : z.string().min(3).max(6),
-    dateOfBirth: type === "sign-in" ? z.string().optional() : z.string().min(3),
-    ssn: type === "sign-in" ? z.string().optional() : z.string().min(3),
-    // both
-    email: z.email(),
-    password: z.string().min(8),
-  });
+export type FormTypeSignUp = "sign-up";
+
+export type FormTypeSignIn = "sign-in";
+
+export const FORM_TYPES: {
+  SIGN_IN: FormTypeSignIn;
+  SIGN_UP: FormTypeSignUp;
+} = {
+  SIGN_IN: "sign-in",
+  SIGN_UP: "sign-up",
+};
+
+export function schemaAuthForm<T extends FormType>(
+  type: T,
+): T extends FormTypeSignIn ? typeof schemaSignIn : typeof schemaSignUp {
+  return (type === "sign-in"
+    ? schemaSignIn
+    : schemaSignUp) as unknown as T extends FormTypeSignIn
+    ? typeof schemaSignIn
+    : typeof schemaSignUp;
+}
+
+export type FormSignUpValues = z.infer<typeof schemaSignUp>;
+
+export type FormSignInValues = z.infer<typeof schemaSignIn>;
+
+export const schemaSignUp = z.object({
+  firstName: z.string().min(3),
+  lastName: z.string().min(3),
+  address1: z.string().max(50),
+  city: z.string().max(50),
+  state: z.string().min(2).max(2),
+  postalCode: z.string().min(3).max(6),
+  dateOfBirth: z.string().min(3),
+  ssn: z.string().min(3),
+  email: z.email(),
+  password: z.string().min(8),
+});
+
+export const schemaSignIn = z.object({
+  firstName: z.string(),
+  lastName: z.string(),
+  address1: z.string(),
+  city: z.string(),
+  state: z.string(),
+  postalCode: z.string(),
+  dateOfBirth: z.string(),
+  ssn: z.string(),
+  email: z.email(),
+  password: z.string().min(8),
+});
+
+export function getFullName(
+  firstName?: string,
+  lastName?: string,
+  fallbackName = "",
+) {
+  return [firstName, lastName].filter(Boolean).join(" ") || fallbackName;
 }

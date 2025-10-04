@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import {ROUTES} from "@/constants/routes";
+import {getFullName} from "@/lib/utils";
 import {CardBank} from "@/components/CardBank";
 
 type RightSidebarProps = {
@@ -10,6 +11,8 @@ type RightSidebarProps = {
 };
 
 export function RightSidebar(props: RightSidebarProps) {
+  const fullName = getFullName(props.user?.firstName, props.user?.lastName);
+
   return (
     <aside className="right-sidebar">
       <section className="flex flex-col pb-8">
@@ -17,14 +20,12 @@ export function RightSidebar(props: RightSidebarProps) {
         <div className="profile">
           <div className="profile-img">
             <span className="text-5xl font-bold text-blue-500">
-              {props.user.firstName[0]}
+              {props.user?.firstName?.[0]}
             </span>
           </div>
           <div className="profile-details">
-            <h1 className="profile-name">
-              {props.user.firstName} {props.user.lastName}
-            </h1>
-            <p className="profile-email">{props.user.email}</p>
+            <h1 className="profile-name">{fullName}</h1>
+            <p className="profile-email">{props.user?.email}</p>
           </div>
         </div>
       </section>
@@ -50,7 +51,7 @@ export function RightSidebar(props: RightSidebarProps) {
               <CardBank
                 key={props.accounts[0].id}
                 account={props.accounts[0]}
-                fullName={`${props.user.firstName} ${props.user.lastName}`}
+                fullName={fullName}
                 showBalance={false}
               />
             </div>
@@ -59,7 +60,7 @@ export function RightSidebar(props: RightSidebarProps) {
                 <CardBank
                   key={props.accounts[1].id}
                   account={props.accounts[1]}
-                  fullName={`${props.user.firstName} ${props.user.lastName}`}
+                  fullName={fullName}
                   showBalance={false}
                 />
               </div>

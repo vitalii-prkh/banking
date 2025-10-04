@@ -12,6 +12,7 @@ import {
   SheetTitle,
   SheetClose,
 } from "@/components/ui/sheet";
+import {Footer} from "@/components/Footer";
 
 type MobileNavProps = {
   user: User;
@@ -91,7 +92,10 @@ export function MobileNav(props: MobileNavProps) {
                 USER
               </nav>
             </SheetClose>
-            FOOTER
+            <Footer
+              type="mobile"
+              user={props.user}
+            />
           </div>
         </SheetContent>
       </Sheet>

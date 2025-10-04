@@ -1,13 +1,11 @@
+import {getLoggedInUser} from "@/lib/actions/user.actions";
+import {getFullName} from "@/lib/utils";
 import {Header} from "@/components/Header";
 import {TotalBalanceBox} from "@/components/TotalBalanceBox";
 import {RightSidebar} from "@/components/RightSidebar";
 
-function PageHome() {
-  const loggedIn = {
-    firstName: "Vitalii",
-    lastName: "Demo",
-    email: "vitalii.demo@example.com",
-  };
+async function PageHome() {
+  const loggedIn = await getLoggedInUser();
 
   return (
     <section className="home">
@@ -16,7 +14,7 @@ function PageHome() {
           <Header
             type="greeting"
             title="Welcome"
-            user={loggedIn?.firstName || "Guest"}
+            user={getFullName(loggedIn?.firstName, loggedIn?.lastName, "Guest")}
             subtext="Access and manage your account and transactions efficienty."
           />
           <TotalBalanceBox

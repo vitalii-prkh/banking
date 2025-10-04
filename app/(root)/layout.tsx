@@ -1,5 +1,8 @@
 import React from "react";
 import Image from "next/image";
+import {redirect} from "next/navigation";
+import {ROUTES} from "@/constants/routes";
+import {getLoggedInUser} from "@/lib/actions/user.actions";
 import {Sidebar} from "@/components/Sidebar";
 import {MobileNav} from "@/components/MobileNav";
 
@@ -7,11 +10,12 @@ type RootLayoutProps = Readonly<{
   children: React.ReactNode;
 }>;
 
-function RootLayout(props: RootLayoutProps) {
-  const loggedIn = {
-    firstName: "Vitalii",
-    lastName: "Demo",
-  };
+async function RootLayout(props: RootLayoutProps) {
+  const loggedIn = await getLoggedInUser();
+
+  if (!loggedIn) {
+    redirect(ROUTES.SIGN_IN);
+  }
 
   return (
     <main className="font-inter flex h-screen w-full">

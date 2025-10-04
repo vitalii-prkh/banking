@@ -8,21 +8,26 @@ import {useForm} from "react-hook-form";
 import {standardSchemaResolver} from "@hookform/resolvers/standard-schema";
 import {Loader2} from "lucide-react";
 import {ROUTES} from "@/constants/routes";
-import {schemaAuthForm, FormAuthValues} from "@/lib/utils";
+import {
+  schemaAuthForm,
+  FormType,
+  FormSignUpValues,
+  FormSignInValues,
+} from "@/lib/utils";
 import {signIn, signUp} from "@/lib/actions/user.actions";
 import {Form} from "@/components/ui/form";
 import {CustomInput} from "@/components/CustomInput";
 import {Button} from "@/components/ui/button";
 
-type FormAuthProps = {
-  type: "sign-up" | "sign-in";
+type FormAuthProps<T extends FormType> = {
+  type: T;
 };
 
-export function FormAuth(props: FormAuthProps) {
+export function FormAuth<T extends FormType>(props: FormAuthProps<T>) {
   const router = useRouter();
-  const [user, setUser] = React.useState<FormAuthValues | null>(null);
+  const [user, setUser] = React.useState<FormSignUpValues | null>(null);
   const schema = React.useMemo(() => schemaAuthForm(props.type), [props.type]);
-  const form = useForm<FormAuthValues>({
+  const form = useForm<FormSignUpValues | FormSignInValues>({
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -37,18 +42,18 @@ export function FormAuth(props: FormAuthProps) {
     },
     resolver: standardSchemaResolver(schema),
   });
-  const handleSubmit = async (values: FormAuthValues) => {
+  const handleSubmit = async (values: FormSignUpValues | FormSignInValues) => {
     try {
       if (props.type === "sign-up") {
         const userData = {
-          firstName: values.firstName!,
-          lastName: values.lastName!,
-          address1: values.address1!,
-          city: values.city!,
-          state: values.state!,
-          postalCode: values.postalCode!,
-          dateOfBirth: values.dateOfBirth!,
-          ssn: values.ssn!,
+          firstName: values.firstName,
+          lastName: values.lastName,
+          address1: values.address1,
+          city: values.city,
+          state: values.state,
+          postalCode: values.postalCode,
+          dateOfBirth: values.dateOfBirth,
+          ssn: values.ssn,
           email: values.email,
           password: values.password,
         };
