@@ -6,7 +6,7 @@ import {getAccount, getAccounts} from "@/lib/actions/bank.actions";
 import {getLoggedInUser} from "@/lib/actions/user.actions";
 import {formatAmount} from "@/lib/utils";
 
-async function TransactionHistory(props: SearchParamProps) {
+async function PageTransactionHistory(props: SearchParamProps) {
   const {id, page} = await props.searchParams;
   const currentPage = Number(page as string) || 1;
   const loggedIn = await getLoggedInUser();
@@ -73,4 +73,4 @@ async function TransactionHistory(props: SearchParamProps) {
   );
 }
 
-export default TransactionHistory;
+export default PageTransactionHistory;
