@@ -2,7 +2,7 @@ type HeaderProps = {
   type?: "title" | "greeting";
   title: string;
   subtext: string;
-  user: string;
+  user?: string;
 };
 
 export function Header(props: HeaderProps) {

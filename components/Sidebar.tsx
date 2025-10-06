@@ -6,6 +6,7 @@ import {usePathname} from "next/navigation";
 import {ROUTES, SIDEBAR_LINKS} from "@/constants/routes";
 import {cn} from "@/lib/utils";
 import {Footer} from "@/components/Footer";
+import {PlaidLink} from "@/components/PlaidLink";
 
 type SidebarProps = {
   user: User;
@@ -54,7 +55,7 @@ export function Sidebar(props: SidebarProps) {
             </Link>
           );
         })}
-        USER
+        <PlaidLink user={props.user} />
       </nav>
       <Footer
         type="desktop"
