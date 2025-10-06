@@ -1,17 +1,8 @@
 "use server";
 
-import {
-  ACHClass,
-  CountryCode,
-  TransferAuthorizationCreateRequest,
-  TransferCreateRequest,
-  TransferNetwork,
-  TransferType,
-} from "plaid";
-
+import {CountryCode} from "plaid";
 import {plaidClient} from "../plaid";
 import {parseStringify} from "../utils";
-
 import {getTransactionsByBankId} from "./transaction.actions";
 import {getBanks, getBank} from "./user.actions";
 
@@ -76,10 +67,9 @@ export async function getAccount({appwriteItemId}: getAccountProps) {
     const accountData = accountsResponse.data.accounts[0];
 
     // get transfer transactions from appwrite
-    const transferTransactionsData = {documents: []};
-    // const transferTransactionsData = await getTransactionsByBankId({
-    //   bankId: bank.$id,
-    // });
+    const transferTransactionsData = await getTransactionsByBankId({
+      bankId: bank.$id,
+    });
 
     const transferTransactions = transferTransactionsData.documents.map(
       (transferData: Transaction) => ({

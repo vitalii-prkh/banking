@@ -290,12 +290,30 @@ export async function getBanks({userId}: getBanksProps) {
 export async function getBank({documentId}: getBankProps) {
   try {
     const {tables} = await createAdminClient();
-
     const bank = await tables.listRows({
       databaseId: APPWRITE_DATABASE,
       tableId: APPWRITE_COLLECTION_BANKS,
       queries: [Query.equal("$id", documentId)],
     });
+
+    return parseStringify(bank.rows[0]);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getBankByAccountId({accountId}: getBankByAccountIdProps) {
+  try {
+    const {tables} = await createAdminClient();
+    const bank = await tables.listRows({
+      databaseId: APPWRITE_DATABASE,
+      tableId: APPWRITE_COLLECTION_BANKS,
+      queries: [Query.equal("accountId", [accountId])],
+    });
+
+    if (bank.total !== 1) {
+      return null;
+    }
 
     return parseStringify(bank.rows[0]);
   } catch (error) {

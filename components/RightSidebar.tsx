@@ -1,8 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import {ROUTES} from "@/constants/routes";
-import {getFullName} from "@/lib/utils";
+import {getFullName, countTransactionCategories} from "@/lib/utils";
 import {CardBank} from "@/components/CardBank";
+import {Category} from "@/components/Category";
 
 type RightSidebarProps = {
   user: User;
@@ -11,6 +12,9 @@ type RightSidebarProps = {
 };
 
 export function RightSidebar(props: RightSidebarProps) {
+  const categories: CategoryCount[] = countTransactionCategories(
+    props.transactions,
+  );
   const fullName = getFullName(props.user?.firstName, props.user?.lastName);
 
   return (
@@ -67,6 +71,18 @@ export function RightSidebar(props: RightSidebarProps) {
             )}
           </div>
         )}
+        <div className="mt-10 flex flex-1 flex-col gap-6">
+          <h2 className="header-2">Top categories</h2>
+
+          <div className="flex flex-col gap-5">
+            {categories.map((category, index) => (
+              <Category
+                key={category.name}
+                category={category}
+              />
+            ))}
+          </div>
+        </div>
       </section>
     </aside>
   );

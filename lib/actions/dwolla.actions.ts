@@ -62,3 +62,31 @@ export async function createFundingSource(options: CreateFundingSourceOptions) {
     console.error("Creating a Funding Source Failed: ", err);
   }
 }
+
+export async function createTransfer({
+  sourceFundingSourceUrl,
+  destinationFundingSourceUrl,
+  amount,
+}: TransferParams) {
+  try {
+    const requestBody = {
+      _links: {
+        source: {
+          href: sourceFundingSourceUrl,
+        },
+        destination: {
+          href: destinationFundingSourceUrl,
+        },
+      },
+      amount: {
+        currency: "USD",
+        value: amount,
+      },
+    };
+    return await dwollaClient
+      .post("transfers", requestBody)
+      .then((res) => res.headers.get("location"));
+  } catch (err) {
+    console.error("Transfer fund failed: ", err);
+  }
+}
